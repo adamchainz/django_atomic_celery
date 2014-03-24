@@ -1,0 +1,6 @@
+*.pyc
+/venv
+/build
+/dist
+/*egg*
+.DS_Store
