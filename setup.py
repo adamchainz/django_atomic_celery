@@ -23,7 +23,7 @@ tests_require = [
 
 setup(
     name='django-atomic-celery',
-    version='1.0.1',
+    version='1.0.2',
     description='Atomic transaction aware Celery tasks for Django 1.6+',
     author='Nick Bruun',
     author_email='nick@bruun.co',
