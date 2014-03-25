@@ -2,38 +2,25 @@ import base64
 import json
 import pickle
 from redis import StrictRedis
-from django.db import connections, transaction, DEFAULT_DB_ALIAS
+from django.db import transaction
 from django.conf import settings
 from django.test import TestCase
+from django_atomic_celery.testing import DjangoAtomicCeleryTestCaseMixin
 from .tasks import task
 
 
-class TaskTestCase(TestCase):
+class TaskTestCase(DjangoAtomicCeleryTestCaseMixin, TestCase):
     """Test case for tasks.
     """
 
     def setUp(self):
         super(TaskTestCase, self).setUp()
 
-        # Exit the atomic block to make sure that signals are handled properly,
-        # as Django uses transactions to wrap test cases.
-        self.connection = connections[DEFAULT_DB_ALIAS]
-
-        for alias, atomic in self.atomics.items():
-            connections[alias].needs_rollback = True
-            atomic.__exit__(None, None, None)
-
         # Set up Redis and clear the Celery key.
         self.redis = StrictRedis(settings.REDIS_HOST,
                                  settings.REDIS_PORT,
                                  settings.REDIS_DATABASE)
         self.redis.delete('celery')
-
-    def tearDown(self):
-        for atomic in self.atomics.values():
-            atomic.__enter__()
-
-        super(TaskTestCase, self).tearDown()
 
     def assertNoScheduled(self):
         """Assert that no tasks are scheduled.

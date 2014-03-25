@@ -137,7 +137,7 @@ def _post_exit_atomic_block(signal,
     task_queue_stack = _get_task_queues()[using]
 
     if successful:
-        if outermost:
+        if len(task_queue_stack) == 1:
             for t in task_queue_stack[0]:
                 logger.debug('Scheduling %s as outer transaction block is '
                              'successful' % (t.description))
