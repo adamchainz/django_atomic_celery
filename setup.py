@@ -11,7 +11,7 @@ packages = [
 
 
 requires = [
-    'Django>=1.6.0,<1.7',
+    'Django>=1.6.0',
     'django-atomic-signals>=1.0.0,<2.0',
 ]
 
