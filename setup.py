@@ -36,7 +36,8 @@ setup(
     license=open('LICENSE').read(),
     zip_safe=True,
     classifiers=(
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
+        'Framework :: Django',
         'Intended Audience :: Developers',
         'Natural Language :: English',
         'License :: OSI Approved :: Apache Software License',
