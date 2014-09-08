@@ -4,9 +4,15 @@ services:
 python:
   - "2.7"
 env:
-  - DATABASE="sqlite3"
-  - DATABASE="postgresql"
-install: "pip install -r dev-requirements.txt --use-mirrors"
+  - DJANGO_DEP="Django>=1.6.0,<1.7.0" DATABASE="sqlite3"
+  - DJANGO_DEP="Django>=1.6.0,<1.7.0" DATABASE="postgresql"
+  - DJANGO_DEP="Django>=1.7.0,<1.8.0" DATABASE="sqlite3"
+  - DJANGO_DEP="Django>=1.7.0,<1.8.0" DATABASE="postgresql"
+install:
+  - pip install --use-mirrors $DJANGO_DEP
+  - pip install -r dev-requirements.txt --use-mirrors
 before_script:
   - psql -c 'CREATE DATABASE djac;' -U postgres
 script: make test
+notifications:
+  email: false

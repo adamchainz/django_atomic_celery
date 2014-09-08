@@ -9,9 +9,8 @@ packages = [
     'django_atomic_celery',
 ]
 
-
 requires = [
-    'Django>=1.6.0',
+    'Django>=1.6.0,<1.8.0',
     'django-atomic-signals>=1.0.0,<2.0',
 ]
 
@@ -23,7 +22,7 @@ tests_require = [
 
 setup(
     name='django-atomic-celery',
-    version='1.0.2',
+    version='1.1.0',
     description='Atomic transaction aware Celery tasks for Django 1.6+',
     author='Nick Bruun',
     author_email='nick@bruun.co',
@@ -42,7 +41,6 @@ setup(
         'Natural Language :: English',
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
     ),
 )
