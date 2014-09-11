@@ -114,10 +114,12 @@ class TaskTestCase(DjangoAtomicCeleryTestCaseMixin, TestCase):
         """
 
         self._test_behavior(
-            lambda args=None, kwargs=None: task.delay(*args, **kwargs), [], {})
+            lambda args=None, kwargs=None: task.delay(*args, **kwargs), [], {}
+        )
         self._test_behavior(
             lambda args=None, kwargs=None: task.delay(*args, **kwargs),
-            ['a', 1], {'a': 'b', '1': 2})
+            ['a', 1], {'a': 'b', '1': 2}
+        )
 
     def test_apply_async(self):
         """@task(..).apply_async(..)
