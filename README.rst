@@ -45,3 +45,18 @@ Using ``django_atomic_celery`` is exactly like using Celery the way you normally
    @task(ignore_result=True, max_retries=3, default_retry_delay=10)
    def retrying_task(arg):
        ..
+
+
+If you use celery 3.1 and its internal integration of Django, then you can instantiate your app giving the task_cls argument.
+Based on example you can find on `celery documentation <http://docs.celeryproject.org/en/latest/django/first-steps-with-django.html>`_:
+
+.. code-block:: python
+
+   from celery import Celery
+
+   [...]
+   app = Celery('proj', task_cls='django_atomic_celery:PostTransactionTask')
+   [...]
+
+
+Then all your task decorated by ``app.task()`` will be instantiated using `PostTransactionTask`.
