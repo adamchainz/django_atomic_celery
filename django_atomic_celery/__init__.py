@@ -83,7 +83,9 @@ class PostTransactionTask(Task):
         return super(PostTransactionTask, cls).apply_async(*args, **kwargs)
 
     @classmethod
-    def apply_async(cls, args=None, kwargs=None, *a, **kw):
+    def apply_async(cls, args=(), kwargs=None, *a, **kw):
+        if kwargs is None:
+            kwargs = {}
         using = kwargs.get('using', DEFAULT_DB_ALIAS)
         task_queue_stack = _get_task_queues()[using]
 

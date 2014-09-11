@@ -48,13 +48,28 @@ class TaskTestCase(DjangoAtomicCeleryTestCaseMixin, TestCase):
 
             expected_name, expected_args, expected_kwargs = t
             self.assertEqual(body['task'], expected_name)
-            self.assertEqual(tuple(body['args']), tuple(expected_args))
-            self.assertEqual(body['kwargs'], expected_kwargs)
+            if expected_args is not None:
+                self.assertEqual(tuple(body['args']), tuple(expected_args))
+            else:
+                # args was not provided, compare with expected default
+                self.assertEqual(tuple(body['args']), ())
+            if expected_kwargs is not None:
+                self.assertEqual(body['kwargs'], expected_kwargs)
+            else:
+                # kwargs was not provided, compare with expected default
+                self.assertEqual(body['kwargs'], {})
 
-    def _test_behavior(self, call, args, kwargs):
+    def _test_behavior(self, call, args=None, kwargs=None):
         # Task delayed outside transaction block is scheduled immediately.
         self.assertNoScheduled()
-        call(args, kwargs)
+        if kwargs is None and args is None:
+            call()
+        elif kwargs is not None and args is None:
+            call(kwargs=kwargs)
+        elif kwargs is None and args is not None:
+            call(args=args)
+        else:
+            call(args=args, kwargs=kwargs)
         self.assertScheduled([('tests.tasks.task', args, kwargs)])
 
         # Task delayed inside successful atomic transaction block is scheduled
@@ -98,16 +113,22 @@ class TaskTestCase(DjangoAtomicCeleryTestCaseMixin, TestCase):
         """@task(..).delay(..)
         """
 
-        self._test_behavior(lambda a, k: task.delay(*a, **k), [], {})
-        self._test_behavior(lambda a, k: task.delay(*a, **k),
-                            ['a', 1],
-                            {'a': 'b', '1': 2})
+        self._test_behavior(
+            lambda args=None, kwargs=None: task.delay(*args, **kwargs), [], {}
+        )
+        self._test_behavior(
+            lambda args=None, kwargs=None: task.delay(*args, **kwargs),
+            ['a', 1], {'a': 'b', '1': 2}
+        )
 
     def test_apply_async(self):
         """@task(..).apply_async(..)
         """
 
-        self._test_behavior(lambda a, k: task.apply_async(a, k), [], {})
-        self._test_behavior(lambda a, k: task.apply_async(a, k),
-                            ['a', 1],
-                            {'a': 'b', '1': 2})
+        self._test_behavior(task.apply_async, args=[], kwargs={})
+        self._test_behavior(task.apply_async,
+                            args=['a', 1],
+                            kwargs={'a': 'b', '1': 2})
+        self._test_behavior(task.apply_async)
+        self._test_behavior(task.apply_async, args=())
+        self._test_behavior(task.apply_async, kwargs={})
