@@ -138,22 +138,19 @@ def _post_exit_atomic_block(signal,
     using = using or DEFAULT_DB_ALIAS
     task_queue_stack = _get_task_queues()[using]
 
-    if successful:
-        if len(task_queue_stack) == 1:
-            task_queue = task_queue_stack.pop()
+    task_queue = task_queue_stack.pop()
 
+    if successful:
+        if not task_queue_stack:
             for t in task_queue:
                 logger.debug('Scheduling %s as outer transaction block is '
                              'successful' % (t.description))
                 t.schedule()
         else:
-            task_queue = task_queue_stack.pop()
             for t in task_queue:
                 logger.debug('Promoting task %s to outer transaction block' %
                              (t.description))
             task_queue_stack[-1] += task_queue
-    else:
-        task_queue_stack.pop()
 
 
 task = partial(base_task, base=PostTransactionTask)
