@@ -157,7 +157,7 @@ def _post_exit_atomic_block(signal,
 task = partial(base_task, base=PostTransactionTask)
 
 
-_loaded = False
-if not _loaded:
-    _loaded = True
+loaded = False
+if not loaded:
+    loaded = True
     django_atomic_celery_loaded.send(sender=None)
