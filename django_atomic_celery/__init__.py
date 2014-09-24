@@ -6,7 +6,6 @@ from django.dispatch import receiver
 from django.db import DEFAULT_DB_ALIAS
 from functools import partial
 from django_atomic_signals import signals
-from .signals import django_atomic_celery_loaded
 
 
 logger = logging.getLogger(__name__)
@@ -155,9 +154,3 @@ def _post_exit_atomic_block(signal,
 
 
 task = partial(base_task, base=PostTransactionTask)
-
-
-loaded = False
-if not loaded:
-    loaded = True
-    django_atomic_celery_loaded.send(sender=None)
