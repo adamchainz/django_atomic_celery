@@ -4,8 +4,6 @@ django_atomic_celery - Atomic transaction aware Celery tasks for Django
 .. image:: https://travis-ci.org/nickbruun/django_atomic_celery.png?branch=master
         :target: https://travis-ci.org/nickbruun/django_atomic_celery
 
-**Note**: `in need of a new maintainer <https://bruun.co/2015/07/22/looking-for-maintainers-for-django-atomic>`_.
-
 ``django_atomic_celery`` provides a Django 1.6-1.7 compatible approach to transactionally aware Celery task scheduling.
 
 
