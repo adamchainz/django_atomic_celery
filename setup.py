@@ -20,10 +20,14 @@ tests_require = [
     'rednose',
 ]
 
+with open('README.rst') as readme_file:
+    readme = readme_file.read()
+
 setup(
     name='django-atomic-celery',
     version='1.1.2',
     description='Atomic transaction aware Celery tasks for Django 1.6+',
+    long_description=readme,
     author='Nick Bruun',
     author_email='nick@bruun.co',
     url='http://bruun.co/',
