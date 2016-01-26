@@ -9,10 +9,7 @@ packages = [
     'django_atomic_celery',
 ]
 
-requires = [
-    'Django>=1.6.0,<1.8.0',
-    'django-atomic-signals>=1.0.0,<2.0',
-]
+requires = []
 
 tests_require = [
     'flake8',
@@ -25,7 +22,7 @@ with open('README.rst') as readme_file:
 
 setup(
     name='django-atomic-celery',
-    version='1.1.2',
+    version='2.0.0',
     description='Atomic transaction aware Celery tasks for Django 1.6+',
     long_description=readme,
     author='Nick Bruun',

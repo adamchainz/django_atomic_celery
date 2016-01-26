@@ -1,6 +1,0 @@
-django-atomic-signals>=1.1.0,<2.0
-django-celery-with-redis>=3.0,<4.0
-psycopg2
-flake8
--e git+https://github.com/django-nose/django-nose.git@master#egg=django-nose
-rednose
