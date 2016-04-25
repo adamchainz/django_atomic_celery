@@ -39,7 +39,7 @@ setup(
     license=open('LICENSE').read(),
     zip_safe=True,
     classifiers=(
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 7 - Inactive',
         'Framework :: Django',
         'Intended Audience :: Developers',
         'Natural Language :: English',
